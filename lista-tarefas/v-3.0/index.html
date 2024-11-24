@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Tarefas</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="css/estilo.css">
+    <script src="js/script.js" defer></script>
+</head>
+<body>
+    <!-- Área principal do site -->
+    <div class="area-principal">
+        <!-- Cabeçalho -->
+        <header>
+            <h1>Lista de Tarefas</h1>
+        </header>
+
+        <!-- Seção 1 do site (adição de tarefas) -->
+        <section class="area-site">
+            <h2>Adicione uma Tarefa</h2>
+            <form id="formulario-adicao" novalidate>
+                <div class="area-campo">
+                    <label for="titulo">
+                        Título <span>*</span>
+                    </label>
+                    <input type="text" name="titulo" id="titulo" placeholder="Defina um título para sua tarefa" maxlength="30" required>
+                </div>
+                <div class="area-campo">
+                    <label for="descricao">
+                        Descrição <span>*</span>
+                    </label>
+                    <textarea name="descricao" id="descricao" placeholder="O que vai fazer?" maxlength="50" required></textarea>
+                </div>
+                <button type="submit" class="botao-formulario">
+                    Adicionar <i class="bi bi-plus-circle"></i>
+                </button>
+            </form>
+        </section>
+
+        <!-- Seção 2 do site (filtragem de tarefas) -->
+        <section class="area-site">
+            <h2>Filtre suas Tarefas</h2>
+            <form id="formulario-filtragem" novalidate>
+                <div class="area-campo">
+                    <label for="categoria">
+                        Categoria <span>*</span>
+                    </label>
+                    <select name="categoria" id="categoria" required>
+                        <option value="">Selecione uma opção</option>
+                        <option value="1">Todas</option>
+                        <option value="2">Pendentes</option>
+                        <option value="3">Concluídas</option>
+                    </select>
+                </div>
+                <button type="submit" class="botao-formulario">
+                    Filtrar <i class="bi bi-filter-circle"></i>
+                </button>
+            </form>
+        </section>
+
+        <!-- Seção 2 do site (visualização de tarefas) -->
+        <main class="area-site">
+            <h2>Veja suas Tarefas</h2>
+            <ul id="lista-tarefas"></ul>
+            <p class="sem-tarefas" id="sem-tarefas">Sem tarefas no momento.</p>
+        </main>
+
+        <!-- Template de um item da lista -->
+        <template id="template-item-lista">
+            <li>
+                <h3 class="titulo-tarefa"></h3>
+                <p class="descricao-tarefa"></p>
+                <div class="area-acoes-tarefa">
+                    <button type="button" class="botao-acao-tarefa botao-concluir">
+                        <i class="bi bi-check-circle"></i>
+                    </button>
+                    <button type="button" class="botao-acao-tarefa botao-deletar">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+            </li>
+        </template>
+
+        <!-- Modal -->
+        <div class="area-modal" id="area-modal">
+            <section class="modal">
+                <header class="cabecalho-modal">
+                    <h4>
+                        Aviso <i class="bi bi-exclamation-triangle"></i>
+                    </h4>
+                </header>
+                <p class="msg-modal" id="msg-modal">Mensagem de teste.</p>
+                <footer class="rodape-modal">
+                    <button type="button" class="botao-fechar-modal" id="botao-fechar-modal">
+                        Fechar <i class="bi bi-x-circle"></i>
+                    </button>
+                </footer>
+            </section>
+        </div>
+
+        <!-- Rodapé -->
+        <footer>
+            <p class="copyright">Desenvolvido por Vitor Souza. &copy; Todos os direitos reservados.</p>
+        </footer>
+    </div>
+</body>
+</html>

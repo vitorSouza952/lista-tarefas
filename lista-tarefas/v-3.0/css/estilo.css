@@ -1,0 +1,238 @@
+/* Estilos gerais */
+* {
+    font-family: Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 15px;
+}
+
+body {
+    line-height: 1.6;
+    background-color: #f0f0f0;
+}
+
+/* Área principal do site */
+.area-principal {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    background-color: white;
+    width: 30rem;
+    max-width: 90%;
+    padding: 1rem;
+    border-radius: .3rem;
+    margin: 1rem auto;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, .3);
+}
+
+/* Cabeçalho */
+h1 {
+    font-size: 1.7rem;
+    text-align: center;
+}
+
+/* Seções/áreas do site */
+.area-site {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+
+h2 {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.area-campo {
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+}
+
+span {
+    color: red;
+}
+
+input,
+textarea,
+select {
+    font-size: .9rem;
+    padding: .9rem .7rem;
+    border: .063rem solid #aaa;
+    border-radius: .3rem;
+    outline: none;
+}
+
+textarea {
+    height: 7rem;
+}
+
+.botao-formulario {
+    align-self: flex-start;
+    font-size: .9rem;
+    color: white;
+    background-color: #0077ff;
+    padding: .9rem 1.1rem;
+    border: none;
+    border-radius: .3rem;
+    outline: none;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    opacity: .9;
+}
+
+.botao-adicionar:hover {
+    opacity: 1;
+}
+
+i {
+    pointer-events: none;
+}
+
+ul {
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+    list-style-type: none;
+}
+
+li {
+    display: flex;
+    flex-direction: column;
+    gap: .9rem;
+    padding: 1rem;
+    border-radius: .3rem;
+    box-shadow: 0 0 1rem rgba(0, 0, 0, .4);
+}
+
+.concluida {
+    background-color: #a5ffa5;
+}
+
+.concluida h3,
+.concluida p {
+    text-decoration: line-through;
+}
+
+.area-acoes-tarefa {
+    display: flex;
+    align-items: center;
+    gap: .9rem;
+}
+
+.botao-acao-tarefa {
+    font-size: .9rem;
+    color: white;
+    padding: .9rem 1.3rem;
+    border: none;
+    border-radius: .3rem;
+    outline: none;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    opacity: .9;
+}
+
+.botao-acao-tarefa:hover {
+    opacity: 1;
+}
+
+.botao-concluir {
+    background-color: green;
+}
+
+.botao-deletar {
+    background-color: red;
+}
+
+.sem-tarefas {
+    text-align: center;
+    color: #aaa;
+}
+
+/* Modal */
+.area-modal {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, .5);
+    width: 100%;
+    height: 100%;
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+    background-color: white;
+    width: 25rem;
+    max-width: 90%;
+    padding: 1rem;
+    border-radius: .3rem;
+}
+
+.cabecalho-modal {
+    padding-bottom: 1rem;
+    border-bottom: .063rem solid #aaa;
+}
+
+h4 {
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.msg-modal {
+    text-align: justify;
+    min-height: 3rem;
+}
+
+.rodape-modal {
+    display: flex;
+    justify-content: right;
+    padding-top: 1rem;
+    border-top: .063rem solid #aaa;
+}
+
+.botao-fechar-modal {
+    font-size: .9rem;
+    color: white;
+    background-color: red;
+    padding: .9rem 1.1rem;
+    border: none;
+    border-radius: .3rem;
+    outline: none;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    opacity: .9;
+}
+
+.botao-fechar-modal:hover {
+    opacity: 1;
+}
+
+/* Rodapé */
+.copyright {
+    font-style: italic;
+    text-align: center;
+}
+
+/* Responsividade */
+
+/* Celulares grandes e acima - 425px p/cima */
+@media (min-width: 425px) {
+    html {
+        font-size: 16px;
+    }
+}
