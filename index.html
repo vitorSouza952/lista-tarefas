@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Tarefas</title>
+    <!-- <link rel="stylesheet" href="css/estilos.css" /> -->
+    <link rel="stylesheet" href="css/estilos.min.css" />
+    <!-- <script src="javascript/funcoes.js" defer></script> -->
+    <script src="javascript/funcoes.min.js" defer></script>
+  </head>
+  <body>
+    <header class="cabecalho-pagina">
+      <h1>Lista de Tarefas</h1>
+    </header>
+
+    <section class="secao-pagina">
+      <h2>Adicione uma Tarefa</h2>
+      <form id="formulario-adicao" novalidate>
+        <div class="area-campo">
+          <label for="titulo"> Título: <span>*</span> </label>
+          <input
+            type="text"
+            id="titulo"
+            class="campo"
+            placeholder="Defina um título para sua tarefa"
+            maxlength="30"
+            required
+          />
+        </div>
+        <div class="area-campo">
+          <label for="descricao"> Descrição: <span>*</span> </label>
+          <textarea
+            id="descricao"
+            class="campo"
+            placeholder="O que você vai fazer?"
+            maxlength="50"
+            required
+          ></textarea>
+        </div>
+        <input type="submit" value="Adicionar" class="botao-envio" />
+      </form>
+    </section>
+
+    <section class="secao-pagina">
+      <h2>Filtre suas Tarefas</h2>
+      <form id="formulario-filtragem" novalidate>
+        <div class="area-campo">
+          <label for="categoria"> Categoria: <span>*</span> </label>
+          <select id="categoria" class="campo" required>
+            <option value="">Selecione uma opção</option>
+            <option value="1">Todas</option>
+            <option value="2">Pendentes</option>
+            <option value="3">Concluídas</option>
+          </select>
+        </div>
+        <input type="submit" value="Filtrar" class="botao-envio" />
+      </form>
+    </section>
+
+    <main class="secao-pagina">
+      <h2>Visualize suas Tarefas</h2>
+      <ul id="lista-tarefas"></ul>
+      <p id="mensagem-sem-tarefas" class="mensagem-sem-tarefas">
+        Nenhuma tarefa adicionada / encontrada.
+      </p>
+    </main>
+
+    <template id="template-item-lista">
+      <li>
+        <h3 class="texto-tarefa"></h3>
+        <p class="texto-tarefa"></p>
+        <div class="area-acoes-tarefa">
+          <button type="button" class="botao-acao-tarefa botao-alternar-estado">
+            Concluir / Tornar Pendente
+          </button>
+          <button type="button" class="botao-acao-tarefa botao-excluir">
+            Excluir
+          </button>
+        </div>
+      </li>
+    </template>
+
+    <div id="area-modal" class="area-modal">
+      <section id="secao-modal" class="secao-modal">
+        <header class="cabecalho-modal">
+          <h4>Atenção:</h4>
+        </header>
+        <p id="mensagem-modal" class="mensagem-modal">Mensagem de teste.</p>
+        <footer class="rodape-modal">
+          <button
+            type="button"
+            id="botao-fechar-modal"
+            class="botao-fechar-modal"
+          >
+            Fechar
+          </button>
+        </footer>
+      </section>
+    </div>
+
+    <footer class="rodape-pagina">
+      <p class="direitos-autorais">
+        Desenvolvido por
+        <a href="https://www.github.com/vitorSouza952" target="_blank"
+          >Vitor Souza</a
+        >. &copy; Todos os direitos reservados.
+      </p>
+    </footer>
+  </body>
+</html>

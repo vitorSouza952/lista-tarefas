@@ -1,0 +1,290 @@
+* {
+  font-family: Arial, sans-serif;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 15px;
+}
+
+body {
+  line-height: 1.6;
+}
+
+.cabecalho-pagina {
+  width: 30rem;
+  max-width: 90%;
+  margin: 1rem auto;
+}
+
+h1 {
+  text-align: center;
+}
+
+.secao-pagina {
+  width: 30rem;
+  max-width: 90%;
+  margin: 0 auto 1rem;
+}
+
+.secao-pagina:nth-child(4) {
+  margin-bottom: 0;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.area-campo {
+  margin-bottom: 0.8rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.6rem;
+}
+
+span {
+  color: #ff0000;
+}
+
+.campo {
+  display: block;
+  font-size: 0.9rem;
+  width: 100%;
+  padding: 0.9rem 0.7rem;
+  border: 0.063rem solid #aaa;
+  border-radius: 0.3rem;
+}
+
+.campo:focus {
+  outline: none;
+}
+
+textarea {
+  height: 7rem;
+}
+
+.botao-envio {
+  display: inline-block;
+  font-size: 0.9rem;
+  color: #fff;
+  background-color: #0077ff;
+  padding: 0.9rem 1.1rem;
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  opacity: 0.9;
+}
+
+.botao-envio:hover {
+  opacity: 1;
+}
+
+.botao-envio:focus {
+  outline: none;
+}
+
+ul {
+  display: none;
+  list-style-type: none;
+}
+
+ul.ativo {
+  display: block;
+}
+
+li {
+  padding: 0.8rem;
+  border-radius: 0.3rem;
+  margin-bottom: 0.8rem;
+  box-shadow: 0 0 0.8rem rgba(0, 0, 0, 0.4);
+}
+
+li:last-child {
+  margin-bottom: 0;
+}
+
+li.inativo {
+  display: none;
+}
+
+.concluida {
+  background-color: #a3fc80;
+}
+
+.concluida .texto-tarefa {
+  text-decoration: line-through;
+}
+
+.texto-tarefa {
+  text-align: justify;
+  margin-bottom: 0.8rem;
+}
+
+.area-acoes-tarefa {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.botao-acao-tarefa {
+  font-size: 0.8rem;
+  color: #fff;
+  padding: 0.8rem 1rem;
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  opacity: 0.9;
+}
+
+.botao-acao-tarefa:hover {
+  opacity: 1;
+}
+
+.botao-acao-tarefa:focus {
+  outline: none;
+}
+
+.botao-alternar-estado {
+  background-color: #008000;
+}
+
+.botao-excluir {
+  background-color: #ff0000;
+}
+
+.mensagem-sem-tarefas {
+  font-size: 1.1rem;
+  text-align: center;
+  color: #aaa;
+}
+
+.mensagem-sem-tarefas.inativo {
+  display: none;
+}
+
+.area-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  transition: all 0.3s ease-in-out;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.area-modal.ativo {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.secao-modal {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  width: 25rem;
+  max-width: 90%;
+  padding: 1rem;
+  border-radius: 0.3rem;
+  transition: all 0.3s ease-in-out;
+  opacity: 0;
+}
+
+.secao-modal.ativo {
+  top: 50%;
+  opacity: 1;
+}
+
+.cabecalho-modal {
+  padding-bottom: 1rem;
+  border-bottom: 0.063rem solid #aaa;
+  margin-bottom: 1rem;
+}
+
+h4 {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.mensagem-modal {
+  text-align: justify;
+  min-height: 3rem;
+}
+
+.rodape-modal {
+  text-align: right;
+  padding-top: 1rem;
+  border-top: 0.063rem solid #aaa;
+  margin-top: 1rem;
+}
+
+.botao-fechar-modal {
+  display: inline-block;
+  font-size: 0.8rem;
+  color: #fff;
+  background-color: #ff0000;
+  padding: 0.8rem 1rem;
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  opacity: 0.9;
+}
+
+.botao-fechar-modal:hover {
+  opacity: 1;
+}
+
+.botao-fechar-modal:focus {
+  outline: none;
+}
+
+.rodape-pagina {
+  width: 30rem;
+  max-width: 90%;
+  margin: 1rem auto;
+}
+
+.direitos-autorais {
+  font-style: italic;
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+  color: #0077ff;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 1440px) {
+  html {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 2560px) {
+  html {
+    font-size: 32px;
+  }
+}
