@@ -219,7 +219,7 @@ formularioFiltragem.addEventListener("submit", (event) => {
   const valorCategoria = categoria.value.trim();
   const tarefas = document.querySelectorAll("li");
 
-  if (!categoria.checkValidity()) {
+  if (!categoria.checkValidity() || !valorCategoria) {
     alternarModal("Erro: Selecione uma opção!");
 
     categoria.value = "";
