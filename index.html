@@ -1,36 +1,53 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lista de Tarefas</title>
-    <!-- <link rel="stylesheet" href="css/estilo.css"> -->
-    <link rel="stylesheet" href="css/estilo.min.css">
-</head>
-<body>
+    <!-- <link rel="stylesheet" href="css/estilo.css" /> -->
+    <link rel="stylesheet" href="css/estilo.min.css" />
+  </head>
+  <body>
     <div class="area-site">
-        <header class="cabecalho">
-            <h1 class="titulo-principal">Lista de Tarefas</h1>
-            <p id="msg-erro" class="msg-erro"></p>
-            <form id="form" class="form">
-                <input type="text" name="texto-tarefa" id="texto-tarefa" class="campo" placeholder="Adicione uma tarefa" required>
-                <input type="submit" value="Adicionar" class="botao botao-enviar">
-            </form>
-        </header>
+      <header class="cabecalho">
+        <h1 class="titulo-principal">Lista de Tarefas</h1>
+        <p id="msg-erro" class="msg-erro"></p>
+        <form id="form" class="form">
+          <input
+            type="text"
+            name="texto-tarefa"
+            id="texto-tarefa"
+            class="campo"
+            placeholder="Adicione uma tarefa"
+            required
+          />
+          <input type="submit" value="Adicionar" class="botao botao-enviar" />
+        </form>
+      </header>
 
-        <main id="conteudo-principal" class="conteudo-principal">
-            <ul id="lista-tarefas" class="lista-tarefas"></ul>
-        </main>
+      <main id="conteudo-principal" class="conteudo-principal">
+        <ul id="lista-tarefas" class="lista-tarefas"></ul>
+      </main>
 
-        <footer class="rodape">
-            <p>
-                Desenvolvido por <a href="https://github.com/vitorsouza952" target="_blank" class="link-creditos">Vitor Souza</a>
-            </p>
-        </footer>
+      <footer class="rodape">
+        <p>
+          Desenvolvido por
+          <a
+            href="https://github.com/vitorsouza952"
+            target="_blank"
+            class="link-creditos"
+            >Vitor Souza</a
+          >
+        </p>
+      </footer>
     </div>
 
-    <script src="js/jquery-3.7.1.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
     <!-- <script src="js/controle.js"></script> -->
     <script src="js/controle.min.js"></script>
-</body>
+  </body>
 </html>
