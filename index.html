@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Tarefas</title>
+    <!-- <link rel="stylesheet" href="css/estilos.css" /> -->
+    <!-- <script src="js/funcoes.js" defer></script> -->
+    <link rel="stylesheet" href="css/estilos.min.css" />
+    <script src="js/funcoes.min.js" defer></script>
+  </head>
+  <body>
+    <div class="area-site">
+      <header>
+        <h1 class="titulo-principal">Lista de Tarefas</h1>
+        <form id="form-adicionar" class="form">
+          <label for="tarefa">
+            Digite sua tarefa: <span class="campo-obrigatorio">*</span>
+          </label>
+          <input
+            type="text"
+            name="tarefa"
+            id="tarefa"
+            class="campo"
+            placeholder="Ex: Tomar banho"
+            maxlength="30"
+            required
+          />
+          <input type="submit" value="Adicionar" class="botao botao-enviar" />
+        </form>
+      </header>
+
+      <main id="conteudo-principal" class="conteudo-principal escondido">
+        <ul id="lista-tarefas" class="lista-tarefas"></ul>
+      </main>
+
+      <template id="template">
+        <li class="item-lista-tarefas">
+          <p class="txt-tarefa"></p>
+          <div class="area-acoes-tarefa">
+            <button type="button" class="botao botao-alternar-estado">
+              Concluir
+            </button>
+            <button type="button" class="botao botao-editar">Editar</button>
+            <button type="button" class="botao botao-deletar">Deletar</button>
+          </div>
+        </li>
+      </template>
+
+      <div id="fundo-modal-editar" class="fundo-modal escondido"></div>
+      <div id="modal-editar" class="modal escondido">
+        <h2 class="titulo-modal">Edite uma Tarefa</h2>
+        <form id="form-editar" class="form">
+          <label for="nova-tarefa">
+            Digite uma nova tarefa: <span class="campo-obrigatorio">*</span>
+          </label>
+          <input
+            type="text"
+            name="nova-tarefa"
+            id="nova-tarefa"
+            class="campo"
+            placeholder="Ex: Escovar os dentes"
+            maxlength="30"
+            required
+          />
+          <div class="area-acoes-modal-editar">
+            <button
+              type="button"
+              id="botao-cancelar"
+              class="botao botao-cancelar"
+            >
+              Cancelar
+            </button>
+            <input type="submit" value="Editar" class="botao botao-enviar" />
+          </div>
+        </form>
+      </div>
+
+      <div id="fundo-modal-msg" class="fundo-modal escondido"></div>
+      <div id="modal-msg" class="modal escondido">
+        <h3 class="titulo-modal">Atenção:</h3>
+        <p id="txt-modal-msg" class="txt-modal-msg"></p>
+        <button
+          type="button"
+          id="botao-fechar-modal-msg"
+          class="botao botao-fechar-modal-msg"
+        >
+          Fechar
+        </button>
+      </div>
+
+      <footer class="rodape">
+        <p>&copy; Copyright - by Vitor Souza.</p>
+      </footer>
+    </div>
+  </body>
+</html>
