@@ -3,25 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lista de Tarefas</title>
+    <title>Minha Lista de Tarefas</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
     />
     <!-- <link rel="stylesheet" href="css/estilo.css" /> -->
-    <link rel="stylesheet" href="css/estilo.min.css" />
     <!-- <script src="js/funcoes.js" defer></script> -->
+    <link rel="stylesheet" href="css/estilo.min.css" />
     <script src="js/funcoes.min.js" defer></script>
   </head>
   <body>
     <div class="area-site">
       <header>
         <h1 class="titulo-principal">
-          Lista de Tarefas <i class="bi bi-card-list"></i>
+          Minha Lista de Tarefas <i class="bi bi-card-list"></i>
         </h1>
         <form id="form-adicionar" class="form">
           <label for="campo-tarefa">
-            Digite uma tarefa: <span class="campo-obrigatorio">*</span>
+            Digite sua tarefa <span class="campo-obrigatorio">*</span>
           </label>
           <input
             type="text"
@@ -38,6 +38,26 @@
         </form>
       </header>
 
+      <section>
+        <h2 class="titulo-secao">
+          Filtrar Tarefas <i class="bi bi-filter-square"></i>
+        </h2>
+        <form id="form-filtrar" class="form">
+          <label for="campo-categoria">
+            Selecione uma categoria <span class="campo-obrigatorio">*</span>
+          </label>
+          <select name="categoria" id="campo-categoria" class="campo" required>
+            <option value="">Selecione uma opção</option>
+            <option value="0">Todas</option>
+            <option value="1">Pendentes</option>
+            <option value="2">Concluídas</option>
+          </select>
+          <button type="submit" class="botao botao-enviar">
+            Filtrar <i class="bi bi-filter-square"></i>
+          </button>
+        </form>
+      </section>
+
       <main id="conteudo-principal" class="conteudo-principal esconder">
         <ul id="lista-tarefas" class="lista-tarefas"></ul>
       </main>
@@ -52,8 +72,8 @@
             <button type="button" class="botao botao-editar">
               Editar <i class="bi bi-pencil-square"></i>
             </button>
-            <button type="button" class="botao botao-deletar">
-              Deletar <i class="bi bi-trash"></i>
+            <button type="button" class="botao botao-remover">
+              Remover <i class="bi bi-trash"></i>
             </button>
           </div>
         </li>
@@ -66,24 +86,24 @@
         </h2>
         <form id="form-editar" class="form">
           <label for="campo-nova-tarefa">
-            Digite uma nova tarefa: <span class="campo-obrigatorio">*</span>
+            Digite sua nova tarefa <span class="campo-obrigatorio">*</span>
           </label>
           <input
             type="text"
             name="nova-tarefa"
             id="campo-nova-tarefa"
             class="campo"
-            placeholder="Ex: Escovar dentes"
+            placeholder="Ex: Escovar os dentes"
             maxlength="30"
             required
           />
-          <div class="area-acoes-edicao-tarefa">
+          <div class="area-botoes-form-editar">
             <button type="submit" class="botao botao-enviar">
               Editar <i class="bi bi-pencil-square"></i>
             </button>
             <button
-              type="button"
-              id="botao-cancelar-edicao"
+              type="reset"
+              id="botao-cancelar"
               class="botao botao-cancelar"
             >
               Cancelar <i class="bi bi-x-square"></i>

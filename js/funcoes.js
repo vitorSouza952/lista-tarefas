@@ -1,72 +1,59 @@
 const formAdicionar = document.querySelector("#form-adicionar");
+const campoTarefa = document.querySelector("#campo-tarefa");
+const formFiltrar = document.querySelector("#form-filtrar");
+const campoCategoria = document.querySelector("#campo-categoria");
 const conteudoPrincipal = document.querySelector("#conteudo-principal");
+const listaTarefas = document.querySelector("#lista-tarefas");
+const template = document.querySelector("#template");
 const fundoModalEditar = document.querySelector("#fundo-modal-editar");
 const modalEditar = document.querySelector("#modal-editar");
 const formEditar = document.querySelector("#form-editar");
 const campoNovaTarefa = document.querySelector("#campo-nova-tarefa");
-const botaoCancelarEdicao = document.querySelector("#botao-cancelar-edicao");
+const botaoCancelar = document.querySelector("#botao-cancelar");
 const fundoModalMsg = document.querySelector("#fundo-modal-msg");
 const modalMsg = document.querySelector("#modal-msg");
+const txtModalMsg = document.querySelector("#txt-modal-msg");
 const botaoFecharModalMsg = document.querySelector("#botao-fechar-modal-msg");
 let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
-let indiceTarefaEditar;
+let iTarefaEditar;
 
-async function esperarTarefas() {
-  if (tarefas.length === 0) {
-    await resgatarTarefas();
-  }
+const resgatarTarefas = async () => {
+  if (!existemTarefas()) {
+    try {
+      const resposta = await fetch("json/tarefas-iniciais.json");
 
-  carregarTarefas();
-}
+      if (!resposta.ok)
+        throw new Error("Não foi possível resgatar as tarefas iniciais.");
 
-async function resgatarTarefas() {
-  try {
-    const resposta = await fetch("json/tarefas-iniciais.json");
-
-    if (!resposta.ok) {
-      throw new Error("Erro: Não foi possível resgatar as tarefas iniciais.");
+      tarefas = await resposta.json();
+      salvarTarefas();
+    } catch (err) {
+      alternarMsg(err);
     }
-
-    const dados = await resposta.json();
-
-    tarefas = dados;
-    salvarTarefas();
-  } catch (erro) {
-    alternarModalMsg(erro);
   }
-}
 
-function salvarTarefas() {
+  carregarTarefas(tarefas);
+};
+
+const existemTarefas = () => tarefas.length > 0;
+
+const salvarTarefas = () =>
   localStorage.setItem("tarefas", JSON.stringify(tarefas));
-}
 
-function alternarModalMsg(msg) {
-  const txtModalMsg = document.querySelector("#txt-modal-msg");
-
+const alternarMsg = (msg) => {
   alternarModal(fundoModalMsg, modalMsg);
+  txtModalMsg.textContent = msg;
+};
 
-  if (msg !== "") {
-    txtModalMsg.textContent = msg;
-  } else {
-    setTimeout(function () {
-      txtModalMsg.textContent = msg;
-    }, 300);
-  }
-}
+const alternarModal = (fundoModal, modal) =>
+  [fundoModal, modal].forEach((el) => el.classList.toggle("esconder"));
 
-function alternarModal(fundoModal, modal) {
-  [fundoModal, modal].forEach(function (elemento) {
-    elemento.classList.toggle("esconder");
-  });
-}
-
-function carregarTarefas() {
-  const listaTarefas = document.querySelector("#lista-tarefas");
-  const template = document.querySelector("#template");
+const carregarTarefas = (tarefas) => {
+  const scrollY = window.scrollY;
 
   listaTarefas.replaceChildren();
 
-  tarefas.forEach(function (elemento, indice) {
+  tarefas.forEach((el) => {
     const cloneTemplate = template.content.cloneNode(true);
     const itemTarefa = cloneTemplate.querySelector(".item-tarefa");
     const txtTarefa = itemTarefa.querySelector(".txt-tarefa");
@@ -76,175 +63,194 @@ function carregarTarefas() {
     );
 
     const botaoEditar = itemTarefa.querySelector(".botao-editar");
-    const botaoDeletar = itemTarefa.querySelector(".botao-deletar");
+    const botaoRemover = itemTarefa.querySelector(".botao-remover");
 
-    if (elemento.concluida) {
+    if (el.concluida) {
+      const txtBotaoConcluida = document.createTextNode("Tornar Pendente ");
+      const iconeTornarTarefaPendente = document.createElement("i");
+
       itemTarefa.classList.add("concluida");
+      iconeTornarTarefaPendente.classList.add("bi");
+      iconeTornarTarefaPendente.classList.add("bi-x-square");
 
-      botaoAlternarEstado.innerHTML =
-        "Tornar Pendente <i class='bi bi-x-square'></i>";
+      botaoAlternarEstado.replaceChildren(
+        txtBotaoConcluida,
+        iconeTornarTarefaPendente
+      );
     }
 
-    txtTarefa.textContent = elemento.txt;
+    txtTarefa.textContent = el.txt;
 
-    botaoAlternarEstado.addEventListener("click", function () {
-      alternarEstadoTarefa(indice);
-    });
+    botaoAlternarEstado.addEventListener("click", () =>
+      alternarEstadoTarefa(el)
+    );
 
-    botaoEditar.addEventListener("click", function () {
-      prepararEdicaoTarefa(indice);
-    });
-
-    botaoDeletar.addEventListener("click", function () {
-      deletarTarefa(indice);
-    });
-
+    botaoEditar.addEventListener("click", () => prepararEdicaoTarefa(el));
+    botaoRemover.addEventListener("click", () => removerTarefa(el));
     listaTarefas.appendChild(itemTarefa);
 
-    if (conteudoPrincipal.classList.contains("esconder")) {
+    if (conteudoPrincipal.classList.contains("esconder"))
       alternarConteudoPrincipal(true);
-    }
   });
-}
 
-function alternarEstadoTarefa(indice) {
-  tarefas[indice].concluida = !tarefas[indice].concluida;
-  salvarTarefas();
-  carregarTarefas();
-}
+  window.scrollTo(0, scrollY);
+};
 
-function prepararEdicaoTarefa(indice) {
-  campoNovaTarefa.value = tarefas[indice].txt;
-  indiceTarefaEditar = indice;
-  alternarModal(fundoModalEditar, modalEditar);
-}
+const alternarEstadoTarefa = (tarefa) => {
+  const i = tarefas.indexOf(tarefa);
 
-function deletarTarefa(indice) {
-  tarefas.splice(indice, 1);
-
-  if (tarefas.length === 0) {
-    alternarConteudoPrincipal(false);
-    removerTodasTarefas();
-  } else {
+  if (i !== -1) {
+    tarefas[i].concluida = !tarefas[i].concluida;
     salvarTarefas();
-    carregarTarefas();
+    carregarTarefas(tarefas);
   }
+};
 
-  alternarModalMsg("Tarefa deletada com sucesso!");
-}
+const prepararEdicaoTarefa = (tarefa) => {
+  const i = tarefas.indexOf(tarefa);
 
-function alternarConteudoPrincipal(exibir) {
-  if (exibir) {
-    conteudoPrincipal.classList.remove("esconder");
-  } else {
-    conteudoPrincipal.classList.add("esconder");
+  if (i !== -1) {
+    campoNovaTarefa.value = tarefa.txt;
+    iTarefaEditar = i;
+    alternarModal(fundoModalEditar, modalEditar);
   }
-}
+};
 
-function removerTodasTarefas() {
-  localStorage.removeItem("tarefas");
-}
+const removerTarefa = (tarefa) => {
+  const i = tarefas.indexOf(tarefa);
 
-function adicionarTarefa(tarefa) {
+  if (i !== -1) {
+    tarefas.splice(i, 1);
+
+    if (tarefas.length === 0) {
+      removerTarefasArmazLocal();
+      alternarConteudoPrincipal(false);
+    } else {
+      salvarTarefas();
+      carregarTarefas(tarefas);
+    }
+
+    alternarMsg("Tarefa deletada com sucesso!");
+  }
+};
+
+const removerTarefasArmazLocal = () => localStorage.removeItem("tarefas");
+
+const alternarConteudoPrincipal = (exibir) => {
+  if (exibir) conteudoPrincipal.classList.remove("esconder");
+  else conteudoPrincipal.classList.add("esconder");
+};
+
+const validarTarefa = (tarefa) => tarefa !== "" && tarefa.length <= 30;
+
+const adicionarTarefa = (tarefa) => {
   if (existeTarefa(tarefa)) {
-    alternarModalMsg("Erro: Tarefa já existente. Por favor, tente novamente.");
+    alternarMsg("Erro: Tarefa já existente. Por favor, tente novamente.");
   } else {
     tarefas.push({ txt: tarefa, concluida: false });
     salvarTarefas();
-    carregarTarefas();
-    alternarModalMsg("Tarefa adicionada com sucesso!");
+    carregarTarefas(tarefas);
+    alternarMsg("Tarefa adicionada com sucesso!");
   }
-}
+};
 
-function existeTarefa(tarefa) {
-  const existeTarefa = tarefas.some(function (elemento) {
-    return elemento.txt.toLowerCase() === tarefa.toLowerCase();
-  });
+const existeTarefa = (tarefa) =>
+  tarefas.some((el) => el.txt.trim().toLowerCase() === tarefa.toLowerCase());
 
-  return existeTarefa;
-}
+const filtrarTarefas = (estado) => {
+  const tarefasFiltradas = tarefas.filter((el) => el.concluida === estado);
 
-function limparCampoTarefa(campoTarefa) {
-  campoTarefa.value = "";
+  if (tarefasFiltradas.length > 0) carregarTarefas(tarefasFiltradas);
+  else
+    alternarMsg(
+      "Erro: Não existem tarefas nesta categoria. Por favor, tente novamente."
+    );
+};
 
-  if (window.innerWidth >= 992) {
-    campoTarefa.focus();
-  } else {
-    campoTarefa.blur();
-  }
-}
-
-function editarTarefa(novaTarefa) {
+const editarTarefa = (novaTarefa) => {
   if (existeTarefa(novaTarefa)) {
-    alternarModalMsg("Erro: Tarefa já existente. Por favor, tente novamente.");
+    alternarMsg("Erro: Tarefa já existente. Por favor, tente novamente.");
   } else {
-    tarefas[indiceTarefaEditar].txt = novaTarefa;
-
-    if (tarefas[indiceTarefaEditar].concluida) {
-      alternarEstadoTarefa(indiceTarefaEditar);
-    }
-
+    tarefas[iTarefaEditar].txt = novaTarefa;
     salvarTarefas();
-    carregarTarefas();
-    alternarModalMsg("Tarefa editada com sucesso!");
+    if (tarefas[iTarefaEditar].concluida) alternarEstadoTarefa(iTarefaEditar);
+    carregarTarefas(tarefas);
+    alternarMsg("Tarefa editada com sucesso!");
   }
-}
+};
 
-function limparCampoNovaTarefa() {
-  setTimeout(function () {
-    campoNovaTarefa.value = "";
-    campoNovaTarefa.blur();
-  }, 300);
-}
+const limparCampoNovaTarefa = () => (campoNovaTarefa.value = "");
 
-window.addEventListener("load", function () {
-  esperarTarefas();
-});
+window.addEventListener("load", () => resgatarTarefas());
 
-formAdicionar.addEventListener("submit", function (evento) {
-  evento.preventDefault();
+formAdicionar.addEventListener("submit", (e) => {
+  e.preventDefault();
 
-  const campoTarefa = document.querySelector("#campo-tarefa");
   const tarefa = campoTarefa.value.trim();
 
-  if (tarefa === "" || tarefa.length > 30) {
-    alternarModalMsg(
+  if (!validarTarefa(tarefa))
+    alternarMsg(
       "Erro: A tarefa é obrigatória e deve conter até 30 caracteres. Por favor, tente novamente."
     );
-  } else {
-    adicionarTarefa(tarefa);
-  }
+  else adicionarTarefa(tarefa);
 
-  limparCampoTarefa(campoTarefa);
+  campoTarefa.value = "";
+  if (window.innerWidth >= 992) campoTarefa.focus();
+  else campoTarefa.blur();
 });
 
-formEditar.addEventListener("submit", function (evento) {
-  evento.preventDefault();
+formFiltrar.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const categoria = campoCategoria.value.trim();
+
+  if (existemTarefas()) {
+    switch (categoria) {
+      case "0":
+        carregarTarefas(tarefas);
+        break;
+      case "1":
+        filtrarTarefas(false);
+        break;
+      case "2":
+        filtrarTarefas(true);
+        break;
+      default:
+        carregarTarefas(tarefas);
+        alternarMsg("Erro: Por favor, selecione uma categoria.");
+    }
+  } else {
+    alternarMsg(
+      "Erro: Não existem tarefas adicionadas. Por favor, adicione uma."
+    );
+  }
+
+  campoCategoria.value = "";
+});
+
+formEditar.addEventListener("submit", (e) => {
+  e.preventDefault();
 
   const novaTarefa = campoNovaTarefa.value.trim();
 
-  if (novaTarefa === "" || novaTarefa.length > 30) {
-    alternarModalMsg(
+  if (!validarTarefa(novaTarefa))
+    alternarMsg(
       "Erro: A nova tarefa é obrigatória e deve conter até 30 caracteres. Por favor, tente novamente."
     );
-  } else {
-    editarTarefa(novaTarefa);
-  }
+  else editarTarefa(novaTarefa);
 
-  limparCampoNovaTarefa();
   alternarModal(fundoModalEditar, modalEditar);
+  limparCampoNovaTarefa();
 });
 
-[fundoModalEditar, botaoCancelarEdicao].forEach(function (elemento) {
-  elemento.addEventListener("click", function () {
-    limparCampoNovaTarefa();
+[fundoModalEditar, botaoCancelar].forEach((el) =>
+  el.addEventListener("click", () => {
     alternarModal(fundoModalEditar, modalEditar);
-    alternarModalMsg("Edição de tarefa cancelada!");
-  });
-});
+    limparCampoNovaTarefa();
+    alternarMsg("Edição de tarefa cancelada!");
+  })
+);
 
-[fundoModalMsg, botaoFecharModalMsg].forEach(function (elemento) {
-  elemento.addEventListener("click", function () {
-    alternarModalMsg("");
-  });
-});
+[fundoModalMsg, botaoFecharModalMsg].forEach((el) =>
+  el.addEventListener("click", () => alternarMsg(""))
+);

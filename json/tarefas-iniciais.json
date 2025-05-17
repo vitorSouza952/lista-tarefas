@@ -1,4 +1,6 @@
 [
   { "txt": "Tomar banho", "concluida": false },
-  { "txt": "Escovar os dentes", "concluida": false }
+  { "txt": "Escovar os dentes", "concluida": false },
+  { "txt": "Tomar café da manhã", "concluida": false },
+  { "txt": "Estudar programação", "concluida": false }
 ]
