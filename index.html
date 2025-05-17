@@ -4,88 +4,106 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lista de Tarefas</title>
-    <!-- <link rel="stylesheet" href="css/estilos.css" /> -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
+    <!-- <link rel="stylesheet" href="css/estilo.css" /> -->
+    <link rel="stylesheet" href="css/estilo.min.css" />
     <!-- <script src="js/funcoes.js" defer></script> -->
-    <link rel="stylesheet" href="css/estilos.min.css" />
     <script src="js/funcoes.min.js" defer></script>
   </head>
   <body>
     <div class="area-site">
       <header>
-        <h1 class="titulo-principal">Lista de Tarefas</h1>
+        <h1 class="titulo-principal">
+          Lista de Tarefas <i class="bi bi-card-list"></i>
+        </h1>
         <form id="form-adicionar" class="form">
-          <label for="tarefa">
-            Digite sua tarefa: <span class="campo-obrigatorio">*</span>
+          <label for="campo-tarefa">
+            Digite uma tarefa: <span class="campo-obrigatorio">*</span>
           </label>
           <input
             type="text"
             name="tarefa"
-            id="tarefa"
+            id="campo-tarefa"
             class="campo"
             placeholder="Ex: Tomar banho"
             maxlength="30"
             required
           />
-          <input type="submit" value="Adicionar" class="botao botao-enviar" />
+          <button type="submit" class="botao botao-enviar">
+            Adicionar <i class="bi bi-plus-square"></i>
+          </button>
         </form>
       </header>
 
-      <main id="conteudo-principal" class="conteudo-principal escondido">
+      <main id="conteudo-principal" class="conteudo-principal esconder">
         <ul id="lista-tarefas" class="lista-tarefas"></ul>
       </main>
 
       <template id="template">
-        <li class="item-lista-tarefas">
+        <li class="item-tarefa">
           <p class="txt-tarefa"></p>
           <div class="area-acoes-tarefa">
             <button type="button" class="botao botao-alternar-estado">
-              Concluir
+              Concluir <i class="bi bi-check-square"></i>
             </button>
-            <button type="button" class="botao botao-editar">Editar</button>
-            <button type="button" class="botao botao-deletar">Deletar</button>
+            <button type="button" class="botao botao-editar">
+              Editar <i class="bi bi-pencil-square"></i>
+            </button>
+            <button type="button" class="botao botao-deletar">
+              Deletar <i class="bi bi-trash"></i>
+            </button>
           </div>
         </li>
       </template>
 
-      <div id="fundo-modal-editar" class="fundo-modal escondido"></div>
-      <div id="modal-editar" class="modal escondido">
-        <h2 class="titulo-modal">Edite uma Tarefa</h2>
+      <div id="fundo-modal-editar" class="fundo-modal esconder"></div>
+      <div id="modal-editar" class="modal esconder">
+        <h2 class="titulo-modal">
+          Editar Tarefa <i class="bi bi-pencil-square"></i>
+        </h2>
         <form id="form-editar" class="form">
-          <label for="nova-tarefa">
+          <label for="campo-nova-tarefa">
             Digite uma nova tarefa: <span class="campo-obrigatorio">*</span>
           </label>
           <input
             type="text"
             name="nova-tarefa"
-            id="nova-tarefa"
+            id="campo-nova-tarefa"
             class="campo"
-            placeholder="Ex: Escovar os dentes"
+            placeholder="Ex: Escovar dentes"
             maxlength="30"
             required
           />
-          <div class="area-acoes-modal-editar">
+          <div class="area-acoes-edicao-tarefa">
+            <button type="submit" class="botao botao-enviar">
+              Editar <i class="bi bi-pencil-square"></i>
+            </button>
             <button
               type="button"
-              id="botao-cancelar"
+              id="botao-cancelar-edicao"
               class="botao botao-cancelar"
             >
-              Cancelar
+              Cancelar <i class="bi bi-x-square"></i>
             </button>
-            <input type="submit" value="Editar" class="botao botao-enviar" />
           </div>
         </form>
       </div>
 
-      <div id="fundo-modal-msg" class="fundo-modal escondido"></div>
-      <div id="modal-msg" class="modal escondido">
-        <h3 class="titulo-modal">Atenção:</h3>
+      <div id="fundo-modal-msg" class="fundo-modal esconder"></div>
+      <div id="modal-msg" class="modal esconder">
+        <h3 class="titulo-modal titulo-modal-msg">
+          Atenção <i class="bi bi-exclamation-triangle"></i>
+        </h3>
         <p id="txt-modal-msg" class="txt-modal-msg"></p>
         <button
           type="button"
           id="botao-fechar-modal-msg"
           class="botao botao-fechar-modal-msg"
         >
-          Fechar
+          Fechar <i class="bi bi-x-square"></i>
         </button>
       </div>
 
