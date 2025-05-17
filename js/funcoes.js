@@ -193,6 +193,7 @@ function editarTarefa(novaTarefa) {
 function limparCampoNovaTarefa() {
   setTimeout(function () {
     campoNovaTarefa.value = "";
+    campoNovaTarefa.blur();
   }, 300);
 }
 
