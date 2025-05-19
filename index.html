@@ -3,23 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Minha Lista de Tarefas</title>
+    <title>Lista de Tarefas</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
     />
     <!-- <link rel="stylesheet" href="css/estilo.css" /> -->
-    <!-- <script src="js/funcoes.js" defer></script> -->
     <link rel="stylesheet" href="css/estilo.min.css" />
+    <!-- <script src="js/funcoes.js" defer></script> -->
     <script src="js/funcoes.min.js" defer></script>
   </head>
   <body>
-    <div class="area-site">
+    <div class="area-aplicacao">
       <header>
         <h1 class="titulo-principal">
-          Minha Lista de Tarefas <i class="bi bi-card-list"></i>
+          Lista de Tarefas <i class="bi bi-card-checklist"></i>
         </h1>
-        <form id="form-adicionar" class="form">
+        <form id="form-adicionar-tarefa" class="form">
           <label for="campo-tarefa">
             Digite sua tarefa <span class="campo-obrigatorio">*</span>
           </label>
@@ -42,11 +42,16 @@
         <h2 class="titulo-secao">
           Filtrar Tarefas <i class="bi bi-filter-square"></i>
         </h2>
-        <form id="form-filtrar" class="form">
+        <form id="form-filtrar-tarefas" class="form">
           <label for="campo-categoria">
             Selecione uma categoria <span class="campo-obrigatorio">*</span>
           </label>
-          <select name="categoria" id="campo-categoria" class="campo" required>
+          <select
+            name="categoria"
+            id="campo-categoria"
+            class="campo campo-categoria"
+            required
+          >
             <option value="">Selecione uma opção</option>
             <option value="0">Todas</option>
             <option value="1">Pendentes</option>
@@ -58,11 +63,14 @@
         </form>
       </section>
 
-      <main id="conteudo-principal" class="conteudo-principal esconder">
+      <section id="secao-tarefas" class="secao-tarefas esconder">
+        <h2 class="titulo-secao">
+          Suas Tarefas <i class="bi bi-card-checklist"></i>
+        </h2>
         <ul id="lista-tarefas" class="lista-tarefas"></ul>
-      </main>
+      </section>
 
-      <template id="template">
+      <template id="modelo-item-tarefa">
         <li class="item-tarefa">
           <p class="txt-tarefa"></p>
           <div class="area-acoes-tarefa">
@@ -72,19 +80,19 @@
             <button type="button" class="botao botao-editar">
               Editar <i class="bi bi-pencil-square"></i>
             </button>
-            <button type="button" class="botao botao-remover">
-              Remover <i class="bi bi-trash"></i>
+            <button type="button" class="botao botao-deletar">
+              Deletar <i class="bi bi-trash"></i>
             </button>
           </div>
         </li>
       </template>
 
       <div id="fundo-modal-editar" class="fundo-modal esconder"></div>
-      <div id="modal-editar" class="modal esconder">
-        <h2 class="titulo-modal">
+      <section id="secao-editar-tarefa" class="secao-modal esconder">
+        <h2 class="titulo-secao-editar">
           Editar Tarefa <i class="bi bi-pencil-square"></i>
         </h2>
-        <form id="form-editar" class="form">
+        <form id="form-editar-tarefa" class="form">
           <label for="campo-nova-tarefa">
             Digite sua nova tarefa <span class="campo-obrigatorio">*</span>
           </label>
@@ -97,7 +105,7 @@
             maxlength="30"
             required
           />
-          <div class="area-botoes-form-editar">
+          <div class="area-botoes-editar-tarefa">
             <button type="submit" class="botao botao-enviar">
               Editar <i class="bi bi-pencil-square"></i>
             </button>
@@ -110,11 +118,11 @@
             </button>
           </div>
         </form>
-      </div>
+      </section>
 
       <div id="fundo-modal-msg" class="fundo-modal esconder"></div>
-      <div id="modal-msg" class="modal esconder">
-        <h3 class="titulo-modal titulo-modal-msg">
+      <section id="secao-msg" class="secao-modal esconder">
+        <h3 class="titulo-modal-msg">
           Atenção <i class="bi bi-exclamation-triangle"></i>
         </h3>
         <p id="txt-modal-msg" class="txt-modal-msg"></p>
@@ -125,10 +133,18 @@
         >
           Fechar <i class="bi bi-x-square"></i>
         </button>
-      </div>
+      </section>
 
       <footer class="rodape">
-        <p>&copy; Copyright - by Vitor Souza.</p>
+        <p>
+          Desenvolvido por
+          <a
+            href="https://github.com/vitorSouza952"
+            target="_blank"
+            class="link-creditos"
+            >Vitor Souza</a
+          >.
+        </p>
       </footer>
     </div>
   </body>

@@ -8,16 +8,16 @@
 
 body {
   text-align: justify;
-  line-height: 1.6;
+  line-height: 1.5;
   background-color: #f0f0f0;
 }
 
-.area-site {
+.area-aplicacao {
   display: flex;
   flex-direction: column;
   gap: 16px;
   background-color: #fff;
-  width: 500px;
+  width: 450px;
   max-width: 90%;
   padding: 16px;
   border-radius: 8px;
@@ -26,7 +26,7 @@ body {
 }
 
 .titulo-principal {
-  font-size: 1.8em;
+  font-size: 1.9em;
   text-align: center;
   margin-bottom: 16px;
 }
@@ -42,7 +42,8 @@ body {
 }
 
 .campo {
-  padding: 12px 10px;
+  font-size: 0.9em;
+  padding: 15px 13px;
   border: 1px solid #aaa;
   border-radius: 8px;
 }
@@ -54,8 +55,9 @@ body {
 }
 
 .botao {
+  font-size: 0.9em;
   color: #fff;
-  padding: 12px 14px;
+  padding: 15px 17px;
   border: 1px solid transparent;
   border-radius: 8px;
   cursor: pointer;
@@ -67,15 +69,15 @@ body {
   background-color: #0077ff;
 }
 
+.bi {
+  color: inherit;
+  pointer-events: none;
+}
+
 .botao-enviar:hover {
   color: #0077ff;
   background-color: transparent;
   border-color: #0077ff;
-}
-
-.bi {
-  color: inherit;
-  pointer-events: none;
 }
 
 .titulo-secao {
@@ -83,7 +85,11 @@ body {
   margin-bottom: 16px;
 }
 
-.conteudo-principal.esconder {
+.campo-categoria {
+  background-color: #fff;
+}
+
+.secao-tarefas.esconder {
   display: none;
 }
 
@@ -101,11 +107,12 @@ body {
 }
 
 .concluida {
-  background-color: #beffbe;
+  background-color: #bcfabc;
 }
 
 .concluida .txt-tarefa {
   text-decoration: line-through;
+  opacity: 0.9;
 }
 
 .txt-tarefa {
@@ -113,7 +120,7 @@ body {
 }
 
 .area-acoes-tarefa,
-.area-botoes-form-editar {
+.area-botoes-editar-tarefa {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
@@ -126,7 +133,7 @@ body {
 
 .botao-alternar-estado:hover,
 .botao-editar:hover,
-.botao-remover:hover {
+.botao-deletar:hover {
   opacity: 1;
 }
 
@@ -135,7 +142,7 @@ body {
   opacity: 0.9;
 }
 
-.botao-remover {
+.botao-deletar {
   background-color: #ff0000;
   opacity: 0.9;
 }
@@ -156,7 +163,7 @@ body {
   pointer-events: none;
 }
 
-.modal {
+.secao-modal {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -173,13 +180,13 @@ body {
   transition: 0.3s;
 }
 
-.modal.esconder {
+.secao-modal.esconder {
   top: 0;
   opacity: 0;
   pointer-events: none;
 }
 
-.titulo-modal {
+.titulo-secao-editar {
   text-align: center;
 }
 
@@ -196,6 +203,9 @@ body {
 
 .titulo-modal-msg {
   font-size: 1.3em;
+  text-align: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #aaa;
 }
 
 .txt-modal-msg {
@@ -210,4 +220,13 @@ body {
 .rodape {
   font-style: italic;
   text-align: center;
+}
+
+.link-creditos {
+  text-decoration: none;
+  color: #0077ff;
+}
+
+.link-creditos:hover {
+  text-decoration: underline;
 }

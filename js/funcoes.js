@@ -1,47 +1,24 @@
-const formAdicionar = document.querySelector("#form-adicionar");
+const formAdicionarTarefa = document.querySelector("#form-adicionar-tarefa");
 const campoTarefa = document.querySelector("#campo-tarefa");
-const formFiltrar = document.querySelector("#form-filtrar");
+const formFiltrarTarefas = document.querySelector("#form-filtrar-tarefas");
 const campoCategoria = document.querySelector("#campo-categoria");
-const conteudoPrincipal = document.querySelector("#conteudo-principal");
+const secaoTarefas = document.querySelector("#secao-tarefas");
 const listaTarefas = document.querySelector("#lista-tarefas");
-const template = document.querySelector("#template");
+const modeloItemTarefa = document.querySelector("#modelo-item-tarefa");
 const fundoModalEditar = document.querySelector("#fundo-modal-editar");
-const modalEditar = document.querySelector("#modal-editar");
-const formEditar = document.querySelector("#form-editar");
+const secaoEditarTarefa = document.querySelector("#secao-editar-tarefa");
+const formEditarTarefa = document.querySelector("#form-editar-tarefa");
 const campoNovaTarefa = document.querySelector("#campo-nova-tarefa");
 const botaoCancelar = document.querySelector("#botao-cancelar");
 const fundoModalMsg = document.querySelector("#fundo-modal-msg");
-const modalMsg = document.querySelector("#modal-msg");
+const secaoMsg = document.querySelector("#secao-msg");
 const txtModalMsg = document.querySelector("#txt-modal-msg");
 const botaoFecharModalMsg = document.querySelector("#botao-fechar-modal-msg");
 let tarefas = JSON.parse(localStorage.getItem("tarefas")) || [];
-let iTarefaEditar;
-
-const resgatarTarefas = async () => {
-  if (!existemTarefas()) {
-    try {
-      const resposta = await fetch("json/tarefas-iniciais.json");
-
-      if (!resposta.ok)
-        throw new Error("Não foi possível resgatar as tarefas iniciais.");
-
-      tarefas = await resposta.json();
-      salvarTarefas();
-    } catch (err) {
-      alternarMsg(err);
-    }
-  }
-
-  carregarTarefas(tarefas);
-};
-
-const existemTarefas = () => tarefas.length > 0;
-
-const salvarTarefas = () =>
-  localStorage.setItem("tarefas", JSON.stringify(tarefas));
+let indiceEditar;
 
 const alternarMsg = (msg) => {
-  alternarModal(fundoModalMsg, modalMsg);
+  alternarModal(fundoModalMsg, secaoMsg);
   txtModalMsg.textContent = msg;
 };
 
@@ -49,13 +26,13 @@ const alternarModal = (fundoModal, modal) =>
   [fundoModal, modal].forEach((el) => el.classList.toggle("esconder"));
 
 const carregarTarefas = (tarefas) => {
-  const scrollY = window.scrollY;
+  const scrollVertical = window.scrollY;
 
   listaTarefas.replaceChildren();
 
   tarefas.forEach((el) => {
-    const cloneTemplate = template.content.cloneNode(true);
-    const itemTarefa = cloneTemplate.querySelector(".item-tarefa");
+    const cloneModeloItemTarefa = modeloItemTarefa.content.cloneNode(true);
+    const itemTarefa = cloneModeloItemTarefa.querySelector(".item-tarefa");
     const txtTarefa = itemTarefa.querySelector(".txt-tarefa");
 
     const botaoAlternarEstado = itemTarefa.querySelector(
@@ -63,19 +40,18 @@ const carregarTarefas = (tarefas) => {
     );
 
     const botaoEditar = itemTarefa.querySelector(".botao-editar");
-    const botaoRemover = itemTarefa.querySelector(".botao-remover");
+    const botaoDeletar = itemTarefa.querySelector(".botao-deletar");
 
     if (el.concluida) {
-      const txtBotaoConcluida = document.createTextNode("Tornar Pendente ");
-      const iconeTornarTarefaPendente = document.createElement("i");
+      const txtBotaoAlternarEstado =
+        document.createTextNode("Tornar Pendente ");
+      const iconeTornarPendente = document.createElement("i");
 
       itemTarefa.classList.add("concluida");
-      iconeTornarTarefaPendente.classList.add("bi");
-      iconeTornarTarefaPendente.classList.add("bi-x-square");
-
+      iconeTornarPendente.className = "bi bi-x-square";
       botaoAlternarEstado.replaceChildren(
-        txtBotaoConcluida,
-        iconeTornarTarefaPendente
+        txtBotaoAlternarEstado,
+        iconeTornarPendente
       );
     }
 
@@ -85,61 +61,71 @@ const carregarTarefas = (tarefas) => {
       alternarEstadoTarefa(el)
     );
 
-    botaoEditar.addEventListener("click", () => prepararEdicaoTarefa(el));
-    botaoRemover.addEventListener("click", () => removerTarefa(el));
+    botaoEditar.addEventListener("click", () => prepararEdicao(el));
+    botaoDeletar.addEventListener("click", () => deletarTarefa(el));
     listaTarefas.appendChild(itemTarefa);
 
-    if (conteudoPrincipal.classList.contains("esconder"))
-      alternarConteudoPrincipal(true);
+    if (secaoTarefas.classList.contains("esconder")) alternarSecaoTarefas(true);
   });
 
-  window.scrollTo(0, scrollY);
+  window.scrollTo(0, scrollVertical);
 };
 
 const alternarEstadoTarefa = (tarefa) => {
-  const i = tarefas.indexOf(tarefa);
+  const indiceTarefa = tarefas.indexOf(tarefa);
 
-  if (i !== -1) {
-    tarefas[i].concluida = !tarefas[i].concluida;
-    salvarTarefas();
+  if (indiceTarefa !== -1) {
+    tarefas[indiceTarefa].concluida = !tarefas[indiceTarefa].concluida;
+
+    if (tarefas[indiceTarefa].concluida) {
+      const tarefaAux = tarefas[indiceTarefa];
+
+      tarefas.splice(indiceTarefa, 1);
+      tarefas.push(tarefaAux);
+    }
+
     carregarTarefas(tarefas);
+    salvarTarefas();
   }
 };
 
-const prepararEdicaoTarefa = (tarefa) => {
-  const i = tarefas.indexOf(tarefa);
+const salvarTarefas = () =>
+  localStorage.setItem("tarefas", JSON.stringify(tarefas));
 
-  if (i !== -1) {
-    campoNovaTarefa.value = tarefa.txt;
-    iTarefaEditar = i;
-    alternarModal(fundoModalEditar, modalEditar);
+const prepararEdicao = (tarefa) => {
+  const indiceTarefa = tarefas.indexOf(tarefa);
+
+  if (indiceTarefa !== -1) {
+    campoNovaTarefa.value = tarefas[indiceTarefa].txt;
+    indiceEditar = indiceTarefa;
+    alternarModal(fundoModalEditar, secaoEditarTarefa);
   }
 };
 
-const removerTarefa = (tarefa) => {
-  const i = tarefas.indexOf(tarefa);
+const deletarTarefa = (tarefa) => {
+  const indiceTarefa = tarefas.indexOf(tarefa);
 
-  if (i !== -1) {
-    tarefas.splice(i, 1);
+  if (indiceTarefa !== -1) {
+    tarefas.splice(indiceTarefa, 1);
 
     if (tarefas.length === 0) {
+      alternarSecaoTarefas(false);
       removerTarefasArmazLocal();
-      alternarConteudoPrincipal(false);
     } else {
-      salvarTarefas();
       carregarTarefas(tarefas);
+      salvarTarefas();
     }
 
     alternarMsg("Tarefa deletada com sucesso!");
   }
 };
 
-const removerTarefasArmazLocal = () => localStorage.removeItem("tarefas");
-
-const alternarConteudoPrincipal = (exibir) => {
-  if (exibir) conteudoPrincipal.classList.remove("esconder");
-  else conteudoPrincipal.classList.add("esconder");
+const alternarSecaoTarefas = (exibir) => {
+  if (exibir) secaoTarefas.classList.remove("esconder");
+  else secaoTarefas.classList.add("esconder");
 };
+
+const removerTarefasArmazLocal = () => localStorage.removeItem("tarefas");
 
 const validarTarefa = (tarefa) => tarefa !== "" && tarefa.length <= 30;
 
@@ -149,9 +135,10 @@ const adicionarTarefa = (tarefa) => {
   } else {
     tarefas.push({ txt: tarefa, concluida: false });
     salvarTarefas();
-    carregarTarefas(tarefas);
     alternarMsg("Tarefa adicionada com sucesso!");
   }
+
+  carregarTarefas(tarefas);
 };
 
 const existeTarefa = (tarefa) =>
@@ -160,51 +147,76 @@ const existeTarefa = (tarefa) =>
 const filtrarTarefas = (estado) => {
   const tarefasFiltradas = tarefas.filter((el) => el.concluida === estado);
 
-  if (tarefasFiltradas.length > 0) carregarTarefas(tarefasFiltradas);
-  else
+  if (tarefasFiltradas.length > 0) {
+    carregarTarefas(tarefasFiltradas);
+  } else {
     alternarMsg(
       "Erro: Não existem tarefas nesta categoria. Por favor, tente novamente."
     );
+  }
 };
 
 const editarTarefa = (novaTarefa) => {
   if (existeTarefa(novaTarefa)) {
     alternarMsg("Erro: Tarefa já existente. Por favor, tente novamente.");
   } else {
-    tarefas[iTarefaEditar].txt = novaTarefa;
+    tarefas[indiceEditar].txt = novaTarefa;
+
+    if (tarefas[indiceEditar].concluida)
+      alternarEstadoTarefa(tarefas[indiceEditar]);
+
     salvarTarefas();
-    if (tarefas[iTarefaEditar].concluida) alternarEstadoTarefa(iTarefaEditar);
-    carregarTarefas(tarefas);
     alternarMsg("Tarefa editada com sucesso!");
   }
+
+  carregarTarefas(tarefas);
 };
 
 const limparCampoNovaTarefa = () => (campoNovaTarefa.value = "");
 
-window.addEventListener("load", () => resgatarTarefas());
+document.addEventListener("DOMContentLoaded", async () => {
+  if (tarefas.length === 0) {
+    try {
+      const resposta = await fetch("json/tarefas-iniciais.json");
 
-formAdicionar.addEventListener("submit", (e) => {
+      if (!resposta.ok) {
+        throw new Error("Não foi possível resgatar as tarefas iniciais.");
+      }
+
+      tarefas = await resposta.json();
+      salvarTarefas();
+    } catch (err) {
+      alternarMsg(err);
+    }
+  }
+
+  carregarTarefas(tarefas);
+});
+
+formAdicionarTarefa.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const tarefa = campoTarefa.value.trim();
 
-  if (!validarTarefa(tarefa))
+  if (!validarTarefa(tarefa)) {
     alternarMsg(
       "Erro: A tarefa é obrigatória e deve conter até 30 caracteres. Por favor, tente novamente."
     );
-  else adicionarTarefa(tarefa);
+  } else {
+    adicionarTarefa(tarefa);
+  }
 
   campoTarefa.value = "";
   if (window.innerWidth >= 992) campoTarefa.focus();
   else campoTarefa.blur();
 });
 
-formFiltrar.addEventListener("submit", (e) => {
+formFiltrarTarefas.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const categoria = campoCategoria.value.trim();
 
-  if (existemTarefas()) {
+  if (tarefas.length > 0) {
     switch (categoria) {
       case "0":
         carregarTarefas(tarefas);
@@ -228,25 +240,27 @@ formFiltrar.addEventListener("submit", (e) => {
   campoCategoria.value = "";
 });
 
-formEditar.addEventListener("submit", (e) => {
+formEditarTarefa.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const novaTarefa = campoNovaTarefa.value.trim();
 
-  if (!validarTarefa(novaTarefa))
+  if (!validarTarefa(novaTarefa)) {
     alternarMsg(
       "Erro: A nova tarefa é obrigatória e deve conter até 30 caracteres. Por favor, tente novamente."
     );
-  else editarTarefa(novaTarefa);
+  } else {
+    editarTarefa(novaTarefa);
+  }
 
-  alternarModal(fundoModalEditar, modalEditar);
   limparCampoNovaTarefa();
+  alternarModal(fundoModalEditar, secaoEditarTarefa);
 });
 
 [fundoModalEditar, botaoCancelar].forEach((el) =>
   el.addEventListener("click", () => {
-    alternarModal(fundoModalEditar, modalEditar);
     limparCampoNovaTarefa();
+    alternarModal(fundoModalEditar, secaoEditarTarefa);
     alternarMsg("Edição de tarefa cancelada!");
   })
 );
