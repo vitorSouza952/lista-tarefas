@@ -112,10 +112,10 @@ const deletarTarefa = (tarefa) => {
       alternarSecaoTarefas(false);
       removerTarefasArmazLocal();
     } else {
-      carregarTarefas(tarefas);
       salvarTarefas();
     }
 
+    carregarTarefas(tarefas);
     alternarMsg("Tarefa deletada com sucesso!");
   }
 };
